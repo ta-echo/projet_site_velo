@@ -1,4 +1,4 @@
-Symfpny 5.3 + PHP 8
+Symfony 5.3 + PHP 8
 
 ----------------------------------------------
 Pour paiement (stripe)
