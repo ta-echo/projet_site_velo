@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande{% endblock %}
+
+{% block body %}
+    <h1>Commande</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ commande.id }}</td>
+            </tr>
+            <tr>
+                <th>Date_commande</th>
+                <td>{{ commande.dateCommande ? commande.dateCommande|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ commande.nom }}</td>
+            </tr>
+            <tr>
+                <th>Adresse_livraison</th>
+                <td>{{ commande.adresseLivraison }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ commande.status ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>{{ commande.total }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('commande_index') }}" class="btn btn-primary">back to list</a>
+
+    <a href="{{ path('commande_edit', {'id': commande.id}) }}" class="btn btn-primary">edit</a>
+   
+    <a href="{{ path('commande_livree', {'id': commande.id}) }}" class="btn btn-primary">Livrée</a>
+
+    {{ include('commande/_delete_form.html.twig') }}
+
+    <hr>
+    <h4>Détail de la commande </h4>
+    <div class="container">
+    
+     <table class="table">
+        <thead>
+            <tr>
+                <th>nom</th>
+                <th>ref</th>
+                <th>prix unit</th>
+                <th>quantité</th>
+                <th>Total</th>
+            
+            </tr>
+        </thead>
+        <tbody>
+        {% for dcommande in commande.detailCommandes %}
+            <tr>
+                <td>{{ dcommande.name }}</td>
+                <td>{{ dcommande.ref }}</td>
+                <td>{{ dcommande.prixUnit }}</td>
+                <td>{{ dcommande.quantity }}</td>
+                <td>{{ dcommande.total }}</td>
+                
+               
+                <td>
+                    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    
+    </div>
+{% endblock %}
