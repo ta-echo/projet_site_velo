@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+			{#{{ encore_entry_link_tags('app') }}#}
+		
+		{% endblock %}
+
+{% block title %}New Contact
+{% endblock %}
+
+{% block body %}
+         {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+	<div class="container">
+		<div class="p-5 mb-4 bg-light rounded-3">
+			<div class="container-fluid py-5">
+            <img src="{{ asset('assets/images/' ~ produit.image )}}" alt="">
+				<h1 class="display-5 fw-bold">{{ produit.name}}</h1>
+				<p class="col-md-8 fs-4">{{ produit.description }}</p>
+                <p>prix : {{ produit.prix}}</p>
+                 <a href="{{ path('add_panier' , { 'id' : produit.id })}}">ajouter au panier</a>
+			</div>
+		</div>
+
+
+	</div>
+
+
+{% endblock %}
