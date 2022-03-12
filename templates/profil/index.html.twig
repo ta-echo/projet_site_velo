@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfilController!
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<a href="{{ path('user_contact_new')}}">Envoyer un message au support</a>
+		<a href="{{ path('user_adresse_new')}}">Adresse de livraison</a>
+
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+			<li class="nav-item" role="presentation">
+				<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Vos Commandes</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Vos adresses de livraison
+				</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+			</li>
+		</ul>
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+				{% for item in app.user.commandes %}
+					<div class="card">
+						<div class="card-body">
+							<p>date commande :
+								{{ item.dateCommande | date('Y/m/d')}}
+								numero de commande
+								{{ item.id }}</p>
+							<p>adresse de livraison :
+								{{ item.adresseLivraison }}</p>
+							{% if item.status %}
+								<p>Commande livrée</p>
+							{% else %}
+								<p>Commande en cours de livraison</p>
+							{% endif %}
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">
+								Voir le detail de la commande
+							</button>
+
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal{{ item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<table class="table">
+												<thead>
+													<tr>
+														<th scope="col">#</th>
+														<th scope="col">First</th>
+														<th scope="col">Last</th>
+														<th scope="col">Handle</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for detail in item.getDetailCommandes() %}
+														<tr>
+															<th scope="row">{{ detail.name }}</th>
+															<td>{{ detail.prixUnit }}</td>
+															<td>{{ detail.quantity }}</td>
+															<td>{{ detail.total }}</td>
+														</tr>
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary">Save changes</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+
+				{% endfor %}
+			</div>
+			<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">First</th>
+							<th scope="col">Last</th>
+							<th scope="col">Handle</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in app.user.adresses %}
+							{% if item.status == true %}
+								<tr class="bg-warning">
+								{% else %}
+									<tr>
+									{% endif %}
+
+									<th scope="row">{{ item.adresse}}</th>
+									<td>{{ item.ville}}</td>
+									<td>{{ item.cp}}</td>
+									<td>{{ item.pays}}</td>
+									<td>
+										<a href="{{ path('edit_adresse_livraison',{ 'id' : item.id })}}" class="btn btn-success">Adresse de livraison</a>
+									</td>
+								</tr>
+
+							{% endfor %}
+						</tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+		</div>
+		<div class="container"></div>
+	</div>
+{% endblock %}
