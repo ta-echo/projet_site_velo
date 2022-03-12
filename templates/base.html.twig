@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{# Run `composer require symfony/webpack-encore-bundle`
+										           and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			{#{{ encore_entry_link_tags('app') }}#}
+			<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css')}}">
+		{% endblock %}
+
+		{% block javascripts %}
+			{#{{ encore_entry_script_tags('app') }}#}
+			<script src="{{ asset('assets/js/bootstrap.min.js')}}"></script>
+			<script src="https://kit.fontawesome.com/0f9e64704e.js" crossorigin="anonymous"></script>
+
+		{% endblock %}
+	</head>
+	<body>
+
+		{% block navbar %}
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="#">Navbar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="{{ path('home') }}"><img src="https://img.icons8.com/fluency/48/000000/home.png"/></a>
+							</li>
+
+							{% if app.user %}
+								<li class="nav-item">
+									<a class="nav-link" href="{{ path('app_logout')}}">logout</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="{{ path('profil')}}">Profil</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="{{ path('panier')}}">Panier</a>
+								</li>
+								{% if is_granted('ROLE_ADMIN') %}
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('contact_index')}}">Contact</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('category_index')}}">Categorie</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('produit_index')}}">Produit</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('carrousel_index')}}">Carrousel</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('commande_index')}}">Commande</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('code_tva_index')}}">tva</a>
+									</li>
+
+								{% endif %}
+
+
+							{% else %}
+								<li class="nav-item">
+									<a class="nav-link" href="{{ path('app_login') }}">Login</a>
+								</li>
+
+								<li class="nav-item">
+									<a class="nav-link " href="{{ path('app_register')}}">inscription</a>
+								</li>
+
+							{% endif %}
+
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+		{% endblock %}
+
+		{% block body %}{% endblock %}
+
+	</body>
+</html>
