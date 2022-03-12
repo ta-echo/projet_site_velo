@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Produit{% endblock %}
+
+{% block body %}
+ 
+ <div class="container">
+  <h4>Vous devez entrer un nom et une adresse pour pouvoir continuer </h4>
+ {{ form_start(form) }}
+ <input type="submit" value="OK">
+ {{ form_end(form) }}
+ 
+ 
+ </div>
+{% endblock %}

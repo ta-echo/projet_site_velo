@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PanierController!
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<div class="row">
+			<div class="col-6">
+				<p>Nom et prenom :
+					{{ app.user.nom ~' ' ~ app.user.prenom}}</p>
+				<hr>
+				<p>Votre adresse de livraison :
+					{{ adresse_livr.adresse ~ ' ' ~ adresse_livr.ville }}</p>
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+					Changer l'adresse de livraison
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Vos adresses</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in app.user.adresses %}
+							{% if item.status == true %}
+								<tr class="bg-warning">
+								{% else %}
+									<tr>
+									{% endif %}
+
+								
+									<td>{{ item.adresse ~' ' ~ item.ville}}</td>
+									
+									<td>
+										<a href="{{ path('change_adresse_recap',{ 'id' : item.id })}}" class="btn btn-success">Adresse de livraison</a>
+									</td>
+								</tr>
+
+							{% endfor %}
+						</tbody>
+					</tbody>
+				</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+			
+			</div>
+			<div class="col-6">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Nom</th>
+							<th scope="col">Prix</th>
+							<th scope="col">quantité</th>
+							<th scope="col">image</th>
+							<th>total</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in panier %}
+							<tr>
+								<th scope="row">{{ item['produit'].getName() }}
+								</th>
+								<td>{{ item['produit'].getprix() }}</td>
+								<td>{{ item['quantity'] }}</td>
+								<td><img src="{{ asset('assets/images/' ~ item['produit'].getImage())}}" alt="" style="width:50px"></td>
+								<td>
+									{{ item['total'] }}</td>
+								<td></td>
+							</tr>
+						{% endfor %}
+						{{ total_panier }}
+					</tbody>
+
+
+				</table>
+			</div>
+
+
+		</div>
+
+
+		<div>
+			<a href="{{ path('achat')}}" class="btn btn-secondary">Passer Votre commande
+			</a>
+			<h3>le total de votre panier :
+				{{ total_panier }}</h3>
+		</div>
+	</div>
+{% endblock %}

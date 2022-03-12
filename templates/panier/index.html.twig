@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PanierController!
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Nom</th>
+					<th scope="col">Prix</th>
+					<th scope="col">Prix ht </th>
+
+					<th scope="col">quantité</th>
+					<th scope="col">image</th>
+					<th>total</th>
+					<th>action</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for item in panier %}*
+
+
+					<tr>
+						<th scope="row">{{ item['produit'].getName() }}
+						</th>
+						<td>{{ item['produit'].getprix() }}€</td>
+						<td>{{ item['ht']| round(2, 'floor') }} €</td>
+
+						<td>
+
+							<a href="{{ path('delete_quantity_produit' , {'id' :item['produit'].getId() })}}">
+								<i class="fas fa-minus me-2"></i>
+							</a>
+							{{ item['quantity'] }}
+							<a href="{{ path('add_panier' , {'id' :item['produit'].getId() })}}">
+								<i class="fas fa-plus ms-2"></i>
+							</a>
+
+						</td>
+
+						<td><img src="{{ asset('assets/images/' ~ item['produit'].getImage())}}" alt="" style="width:50px"></td>
+						<td>
+							{{ item['total'] }}</td>
+
+
+						<td>
+							<a href="{{ path('delete_produit_panier' , { 'id' : item['produit'].getId() }) }}">
+								<i class="fas fa-trash"></i>
+							</a>
+						</td>
+
+
+					</tr>
+
+				{% endfor %}
+	{{ total_panier }}</h3>
+
+			</tbody>
+		</table>
+		
+		<div>
+		<a href="{{ path('confirm_panier')}}" class="btn btn-secondary">Passer Votre commande </a>
+		<h3>le total de votre panier :	{{ total_panier }}</h3>
+		</div>
+		
+
+		<a href="{{ path('delete_panier') }}">supprmier panier</a>
+		{# <a href="{{ path('add_panier') }}">Ajouter produit panier</a>
+				<a href="{{ path('delete_quantity_produit') }}">supprimer 1 quantity</a> #}
+	</div>
+
+{% endblock %}
